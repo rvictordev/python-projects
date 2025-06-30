@@ -44,34 +44,34 @@ def check_scores(player_cards, dealer_cards, is_player_busted = False, is_dealer
         print(f"      Your final hand: {player_final}, final score: {player_sum_final}")
         print(f"      Computer's final hand: {dealer_final}, final score: {dealer_sum_final}\n")
 
-    dealers = []
-    players = []
-    for card in range(4):
-        if card % 2 == 0:
-            dealers.append(cards[random.randint(0, len(cards) - 1)])
+    c_dealers = []
+    c_players = []
+    for c_card in range(4):
+        if c_card % 2 == 0:
+            c_dealers.append(cards[random.randint(0, len(cards) - 1)])
         else:
-            players.append(cards[random.randint(0, len(cards) - 1)])
+            c_players.append(cards[random.randint(0, len(cards) - 1)])
     if is_player_busted:
         print_final_score(player_cards,dealer_cards,player_sum,dealer_sum)
         print("You went over. You lose 😭")
-        blackjack(players,dealers)
+        blackjack(c_players, c_dealers)
     if is_dealer_busted:
         print_final_score(player_cards,dealer_cards,player_sum,dealer_sum)
         print("Computer went over. You win 😁")
-        blackjack(players,dealers)
+        blackjack(c_players, c_dealers)
     if not is_player_busted and not is_player_busted and is_game_over:
         if player_sum > dealer_sum:
             print_final_score(player_cards,dealer_cards,player_sum,dealer_sum)
             print("You win 😁")
-            blackjack(players,dealers)
+            blackjack(c_players, c_dealers)
         elif player_sum < dealer_sum:
             print_final_score(player_cards, dealer_cards, player_sum, dealer_sum)
             print("You lose 😭")
-            blackjack(players, dealers)
+            blackjack(c_players, c_dealers)
         else:
             print_final_score(player_cards, dealer_cards, player_sum, dealer_sum)
             print("Its a draw 😊")
-            blackjack(players,dealers)
+            blackjack(c_players, c_dealers)
 
 def dealer(dealers_cards):
     sum_dealer = sum(dealers_cards)
@@ -95,10 +95,11 @@ def blackjack(players_card,dealers_card):
                 players_card.append(cards[random.randint(0, len(cards) - 1)])
                 players_card = check_ace(players_card)
                 draw_card = check_draw(players_card)
-                check_scores(players_card, dealers_card)
                 if sum(players_card) > 21:
                     draw_card = False
                     check_scores(players_card, dealers_card, is_player_busted=True)
+                else:
+                    check_scores(players_card, dealers_card)
             else:
                 players_card = check_ace(players_card)
                 dealers_card = dealer(dealers_card)
